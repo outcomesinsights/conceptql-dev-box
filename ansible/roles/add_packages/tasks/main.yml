@@ -1,0 +1,11 @@
+---
+- name: Add packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - build-essential
+    - cpanminus
+    - curl
+    - git
+    - pgxnclient
+    - python-psycopg2
+    - postgresql-server-dev-9.3

@@ -1,0 +1,17 @@
+---
+- name: Copy sequelizer
+  synchronize: src=/Users/ryan/projects/outins/sequelizer dest=~
+
+- name: fix permissions on sequelizer
+  file: path=/home/vagrant/sequelizer recurse=yes owner=vagrant group=vagrant
+  sudo: yes
+
+- name: Install bundler
+  command: bash -lc 'bundle --version || gem install bundler'
+  register: _cql_install_bundler
+  changed_when: _cql_install_bundler.stdout.find('fully installed') != -1
+
+- name: Install gems via bundler
+  command: bash -lc 'cd ~/sequelizer && bundle'
+  register: _cql_install_gems_via_bundler
+  changed_when: _cql_install_gems_via_bundler.stdout.find('Installing') != -1

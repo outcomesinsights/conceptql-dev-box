@@ -1,0 +1,14 @@
+---
+- hosts: all
+  vars:
+    rvm:
+      root: ~/.rvm
+      init_script: ~/.rvm/scripts/rvm
+      url: https://get.rvm.io
+      temp_installer_path: /tmp/rvm-installer.sh
+      ruby_version: ruby-2.1.2
+  roles:
+    - altermn.rvm
+    - sequelizer
+    - conceptql
+    - test_conceptql

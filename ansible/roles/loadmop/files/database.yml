@@ -1,0 +1,7 @@
+---
+adapter: postgres
+database: conceptql_test
+username: vagrant
+password: v
+host: localhost
+search_path: vocabulary
