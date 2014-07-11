@@ -2,12 +2,16 @@
 
 ## Introduction
 
-Inspired by https://github.com/rails/rails-dev-box, this project automates the setup of a development environment for working with ConceptQL.
+Inspired by [rails-dev-box](https://github.com/rails/rails-dev-box), this project automates the setup of a development environment for working with ConceptQL.
 
 ## Requirements
 
 * [VirtualBox](https://www.virtualbox.org)
 * [Vagrant 1.6+](http://vagrantup.com)
+* [Ansible 1.6+](http://www.ansible.com/home)
+* Download the [OMOP Vocabulary Files](http://vocabbuild.omop.org/vocabulary-release) then **unzip them and rename them to conceptql-dev-box/omop_vocab**
+    * I can't ship them myself because they contain "restricted" vocabularies like CPT codes
+    * Sorry for the inconvenience!
 
 ## How To Build The Virtual Machine
 
@@ -21,12 +25,18 @@ Wait a while (there's a lot of data to load and programs to install).
 
 That's it.
 
-If the base box is not present that command fetches it first. The setup itself takes about 3 minutes in my MacBook Air. After the installation has finished, you can access the virtual machine with
+If there are any errors, retry the provisioning step:
+
+  host $ vagrant provision
+
+If it keeps failing at the same spot, [open up and issue](https://github.com/outcomesinsights/test_conceptql/issues/new)
+
+After the installation has finished, you can access the virtual machine with
 
     host $ vagrant ssh
-    Welcome to Ubuntu 14.04 LTS (GNU/Linux 3.2.0-23-generic-pae i686)
+    Welcome to Ubuntu 14.04 LTS (GNU/Linux 3.13.0-30-generic x86_64)
     ...
-    vagrant@rails-dev-box:~$
+    vagrant@conceptql-dev-box:~$
 
 ## What's In The Box
 
@@ -37,8 +47,26 @@ If the base box is not present that command fetches it first. The setup itself t
 * PostgreSQL 9.3
 * Databases and users needed to run the Active Record test suite
 * [Sequelizer](https://github.com/outcomesinsights/sequelizer)
+* [loadmop](https://github.com/outcomesinsights/loadmop)
 * [ConceptQL](https://github.com/outcomesinsights/conceptql)
 * [Test ConceptQL](https://github.com/outcomesinsights/test_conceptql)
+
+## What to Play With
+
+You may play with ConceptQL directly, or with its testing framework
+
+### Playing with ConceptQL
+
+ConceptQL comes with a command-line utility: `conceptql`.  This [Thor](http://whatisthor.com)-based script can be run by typing
+    vagrant@conceptql-dev-box:/vagrant/conceptql$ bundle exec concepql
+
+With no arguments, you'll get a list of the commands provided by the `conceptql` script.
+
+The commands you run will execute against a sample of 250 patients' worth of synthetic data.
+
+### Playing with ConceptQL's Tests
+
+The other option is to run the tests in `/vagrant/test_conceptql`.  See [Test ConceptQL](https://github.com/outcomesinsights/test_conceptql) for instructions on how to run the tests.
 
 ## Recommended Workflow
 
@@ -48,21 +76,21 @@ The recommended workflow is
 
 * test within the virtual machine.
 
-Just clone your Rails fork into the rails-dev-box directory on the host computer:
+Just clone your ConceptQL fork into the conceptql-dev-box directory on the host computer:
 
     host $ ls
     README.md   Vagrantfile puppet
-    host $ git clone git@github.com:<your username>/rails.git
+    host $ git clone git@github.com:<your username>/conceptql.git
 
 Vagrant mounts that directory as _/vagrant_ within the virtual machine:
 
-    vagrant@rails-dev-box:~$ ls /vagrant
-    puppet  rails  README.md  Vagrantfile
+    vagrant@conceptql-dev-box:~$ ls /vagrant
+    ansible  conceptql test_conceptql omop_vocab README.md  Vagrantfile LICENSE.txt
 
 Install gem dependencies in there:
 
-    vagrant@rails-dev-box:~$ cd /vagrant/rails
-    vagrant@rails-dev-box:/vagrant/rails$ bundle
+    vagrant@conceptql-dev-box:~$ cd /vagrant/conceptql
+    vagrant@conceptql-dev-box:/vagrant/conceptql$ bundle
 
 We are ready to go to edit in the host, and test in the virtual machine.
 
@@ -98,6 +126,8 @@ Finally, to completely wipe the virtual machine from the disk **destroying all i
 
 Please check the [Vagrant documentation](http://docs.vagrantup.com/v2/) for more information on Vagrant.
 
-## License
-
-Released under the MIT License, Copyright (c) 2012–<i>ω</i> Xavier Noria.
+## Thanks
+- Xavier Noria's [rails-dev-box](https://github.com/rails/rails-dev-box)
+    - For the inspiration (and for being a great way to hack on Rails)!
+- [Outcomes Insights, Inc.](http://outins.com)
+    - Many thanks for allowing me to release a portion of my work as Open Source Software!
