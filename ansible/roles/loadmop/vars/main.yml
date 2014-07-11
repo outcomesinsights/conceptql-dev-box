@@ -1,0 +1,3 @@
+---
+omop_vocab_dir: "{{ tcql.dest_dir }}/omop_vocab"
+loadmop_dir: "{{ tcql.dest_dir }}/loadmop"
