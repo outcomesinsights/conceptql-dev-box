@@ -1,3 +1,5 @@
+.*.sw*
+.*.un*
 .vagrant
 conceptql
 omop_vocab
