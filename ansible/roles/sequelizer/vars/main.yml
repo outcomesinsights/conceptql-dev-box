@@ -1,0 +1,2 @@
+---
+sequelizer_dir: "{{ tcql.dest_dir }}/sequelizer"
