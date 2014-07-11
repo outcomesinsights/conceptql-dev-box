@@ -1,0 +1,16 @@
+---
+- name: Check for data file
+  stat: path=/tmp/{{ file_name }}.tbz
+  register: st
+
+- name: Download data
+  get_url: dest=/tmp/ url=http://files.jenandryanmakeitso.com/{{ file_name }}.tbz
+  when: st.stat.md5 is not defined or st.stat.md5 != '{{ file_md5 }}'
+
+- name: Check for folder
+  stat: path=/tmp/{{ file_name }}
+  register: dir_st
+
+- name: Unpack folder
+  command: bash -lc 'cd /tmp/ && tar xjf {{ file_name }}.tbz'
+  when: dir_st.stat.isdir is not defined or dir_st.stat.isdir == false
