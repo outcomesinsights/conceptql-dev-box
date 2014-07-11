@@ -1,9 +1,9 @@
 ---
 - name: Copy conceptql
-  synchronize: src=/Users/ryan/projects/outins/conceptql dest=~
+  synchronize: src=/Users/ryan/projects/outins/conceptql dest={{ tcql.dest_dir }}
 
 - name: fix permissions on conceptql
-  file: path=/home/vagrant/conceptql recurse=yes owner=vagrant group=vagrant
+  file: path={{ conceptql_dir }} recurse=yes owner={{ tcql.user }} group={{ tcql.group }}
   sudo: yes
 
 - name: Install bundler
@@ -12,6 +12,6 @@
   changed_when: _cql_install_bundler.stdout.find('fully installed') != -1
 
 - name: Install gems via bundler
-  command: bash -lc 'cd ~/conceptql && bundle'
+  command: bash -lc "cd {{ conceptql_dir }} && bundle"
   register: _cql_install_gems_via_bundler
   changed_when: _cql_install_gems_via_bundler.stdout.find('Installing') != -1
