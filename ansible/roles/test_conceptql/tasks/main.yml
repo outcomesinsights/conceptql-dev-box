@@ -1,78 +1,55 @@
 ---
 - name: Copy test_conceptql
-  synchronize: src=/Users/ryan/projects/outins/test_conceptql dest=/home/vagrant/
+  git: repo=https://github.com/outcomesinsights/test_conceptql.git dest={{ test_conceptql_dir}}
 
 - name: Copy over .env
-  copy: src=.env dest=/home/vagrant/test_conceptql/.env
-
-- name: fix permissions on test_conceptql
-  file: path=/home/vagrant/test_conceptql recurse=yes owner=vagrant group=vagrant
-  sudo: yes
-
-- name: Copy over data
-  synchronize: src=/Users/ryan/tmp/data dest=/tmp/
-
-- name: fix permissions on data
-  file: path=/tmp/data recurse=yes owner=vagrant group=vagrant
-  sudo: yes
-
-- name: Copy over validation data
-  synchronize: src=/Users/ryan/tmp/validation_data dest=/tmp/
-
-- name: fix permissions on validation data
-  file: path=/tmp/validation_data recurse=yes owner=vagrant group=vagrant
-  sudo: yes
-
-- name: Copy over vocabulary
-  synchronize: src=/Users/ryan/tmp/sql_data/vocab.sql dest=/tmp/
-
-- name: fix permissions on validation data
-  file: path=/tmp/vocab.sql owner=postgres group=vagrant
-  sudo: yes
+  copy: src=.env dest={{ test_conceptql_dir }}/.env
 
 - name: Remove database.yml
-  file: dest=/vagrant/test_conceptql/config/database.yml state=absent
+  file: dest={{ test_conceptql_dir }}/config/database.yml state=absent
   ignore_errors: True
   changed_when: False
 
 - name: Install test_conceptql gems via bundler
-  command: bash -lc 'cd /vagrant/test_conceptql && bundle'
+  command: bash -lc "cd {{ test_conceptql_dir }} && bundle"
   register: _tcql_install_gems_via_bundler
   changed_when: _tcql_install_gems_via_bundler.stdout.find('Installing') != -1
 
 - name: Update Gemfile using sequelizer
-  command: bash -lc 'cd /vagrant/test_conceptql && bundle exec ruby ../sequelizer/bin/sequelizer update_gemfile'
+  command: bash -lc "cd {{ test_conceptql_dir }} && bundle exec sequelizer update_gemfile"
   register: _tcql_update_gemfile
   changed_when: _tcql_update_gemfile.stdout.find('no modification') == -1
 
-- name: Install test_conceptql gems via bundler
-  command: bash -lc 'cd /vagrant/test_conceptql && bundle'
-  when: _tcql_update_gemfile.rc != 0
-  register: _tcql_install_gems_via_bundler
-  changed_when: _tcql_install_gems_via_bundler.stdout.find('Installing') != -1
-
-- name: Check for vocabulary data
-  command: bash -lc 'echo "select count(*) from vocabulary.vocabulary;" | psql -d conceptql_test | grep 50'
-  register: _tcql_vocab_check
-  ignore_errors: True
-  changed_when: False
-
-- name: load vocabulary data
-  command: bash -lc 'psql -d conceptql_test < /tmp/vocab.sql'
-  sudo_user: postgres
-  when: _tcql_vocab_check.rc != 0
-
 - name: Load validation data
-  command: bash -lc 'cd /vagrant/test_conceptql && bundle exec rake validate:load_data'
+  command: bash -lc "cd {{ test_conceptql_dir }} && bundle exec rake validate:load_data"
   register: _tcql_load_validation_data
   changed_when: _tcql_load_validation_data.stdout.find('rebuilding') != -1
 
 - name: Load benchmark data
-  command: bash -lc 'cd /vagrant/test_conceptql && bundle exec rake benchmark:load_data'
+  command: bash -lc "cd {{ test_conceptql_dir }} && bundle exec rake benchmark:load_data"
   register: _tcql_load_benchmark_data
   changed_when: _tcql_load_benchmark_data.stdout.find('rebuilding') != -1
 
 - name: Index all the things
-  command: bash -lc 'cd /vagrant/test_conceptql && bundle exec ruby db.rb index_all_the_things _bm1'
+  command: bash -lc "cd {{ test_conceptql_dir }} && bundle exec ruby db.rb index_all_the_things _bm1"
   register: _tcql_index_all_the_things
   changed_when: _tcql_index_all_the_things.stdout.find('indexed already') == -1
+
+- name: Install loadmop gem
+  command: bash -lc 'gem install loadmop'
+
+- name: Check for vocabulary 4.3 data
+  command: bash -lc 'echo "select count(*) from vocabulary.vocabulary;" | psql -d conceptql_test | grep 46'
+  register: _tcql_vocab_43_check
+  ignore_errors: True
+  changed_when: False
+
+- name: Check for vocabulary 4.4 data
+  command: bash -lc 'echo "select count(*) from vocabulary.vocabulary;" | psql -d conceptql_test | grep 50'
+  register: _tcql_vocab_44_check
+  ignore_errors: True
+  changed_when: False
+
+- name: Setup vocabulary database
+  command: bash -lc 'cd {{ test_conceptql_dir }} && loadmop create_vocab_database {{ tcql.dest_dir }}/omop_vocab'
+  when: _tcql_vocab_43_check.rc != 0 and  _tcql_vocab_44_check.rc != 0
