@@ -14,6 +14,7 @@
 
   roles:
     - altermn.rvm
+    - conceptql
     - { role: prep_data, file_name: sample_validation_data, file_md5: 5792c79c136d90b1f4ad354c65356822 }
     - { role: prep_data, file_name: sample_data, file_md5: 5f98fd74fad3e837ae6f18f57a3f3346 }
     - test_conceptql
