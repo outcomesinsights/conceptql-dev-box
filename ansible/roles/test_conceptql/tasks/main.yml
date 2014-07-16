@@ -10,6 +10,9 @@
   ignore_errors: True
   changed_when: False
 
+- name: Update Gemfile to use local ConceptQL
+  replace: dest={{ test_conceptql_dir }}/Gemfile regexp="^(gem 'conceptql')$" replace="\1, :path => '../conceptql'"
+
 - name: Install test_conceptql gems via bundler
   command: bash -lc "cd {{ test_conceptql_dir }} && bundle"
   register: _tcql_install_gems_via_bundler
