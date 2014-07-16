@@ -36,7 +36,7 @@
   changed_when: _tcql_index_all_the_things.stdout.find('indexed already') == -1
 
 - name: Install loadmop gem
-  command: bash -lc 'gem install loadmop'
+  command: bash -lc 'gem install -v ">= 0.0.3" loadmop'
 
 - name: Check for vocabulary 4.3 data
   command: bash -lc 'echo "select count(*) from vocabulary.vocabulary;" | psql -d conceptql_test | grep 46'
@@ -51,5 +51,5 @@
   changed_when: False
 
 - name: Setup vocabulary database
-  command: bash -lc 'cd {{ test_conceptql_dir }} && loadmop create_vocab_database {{ tcql.dest_dir }}/omop_vocab'
+  command: bash -lc 'cd {{ test_conceptql_dir }} && loadmop create_vocab_database -s vocabulary {{ tcql.dest_dir }}/omop_vocab'
   when: _tcql_vocab_43_check.rc != 0 and  _tcql_vocab_44_check.rc != 0
