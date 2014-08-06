@@ -27,9 +27,9 @@ That's it.
 
 If there are any errors, retry the provisioning step:
 
-  host $ vagrant provision
+    host $ vagrant provision
 
-If it keeps failing at the same spot, [open up and issue](https://github.com/outcomesinsights/test_conceptql/issues/new)
+If it keeps failing at the same spot, [open up an issue](https://github.com/outcomesinsights/test_conceptql/issues/new)
 
 After the installation has finished, you can access the virtual machine with
 
