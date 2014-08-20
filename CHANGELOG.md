@@ -1,6 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.0.3 - 2014-08-19
+
+### Added
+- Establish a private network for dev box.
+
+### Deprecated
+- Nothing.
+
+### Removed
+- Installation of pgTAP on guest.
+
+### Fixed
+- Nothing.
+
+
 ## 0.0.2 - 2014-07-16
 
 ### Added
