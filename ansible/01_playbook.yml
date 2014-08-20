@@ -12,13 +12,14 @@
     postgresql_user_privileges:
       - name: vagrant
         db: conceptql_test
-    #postgresql_pg_hba_passwd_hosts:
-    #- 192.168.56.1/16
+    postgresql_pg_hba_passwd_hosts:
+      - 192.168.0.1/16
+      - 10.0.0.0/16
+      - 172.28.0.0/16
     postgresql_listen_addresses:
       - '*'
     postgresql_work_mem: 1000MB
   roles:
     - add_packages
     - Ansibles.postgresql
-    - post_postgres
 
