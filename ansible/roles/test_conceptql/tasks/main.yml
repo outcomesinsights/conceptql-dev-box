@@ -1,6 +1,6 @@
 ---
 - name: Copy test_conceptql
-  git: repo=https://github.com/outcomesinsights/test_conceptql.git dest={{ test_conceptql_dir}}
+  git: repo=https://github.com/outcomesinsights/test_conceptql.git dest={{ test_conceptql_dir}} update=no
 
 - name: Copy over .env
   copy: src=.env dest={{ test_conceptql_dir }}/.env
