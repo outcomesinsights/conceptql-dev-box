@@ -1,6 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Added
+- Nothing
+
+### Deprecated
+- Nothing.
+
+### Removed
+- Nothing.
+
+### Fixed
+- Don't update the test_conceptql git repo on when provisioning.
+
+
 ## 0.0.3 - 2014-08-19
 
 ### Added
