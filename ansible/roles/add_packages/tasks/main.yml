@@ -9,3 +9,9 @@
     - pgxnclient
     - python-psycopg2
     - postgresql-server-dev-9.3
+
+- name: Remove packages
+  apt: name={{ item }} state=absent
+  with_items:
+    - puppet
+    - puppet-common
