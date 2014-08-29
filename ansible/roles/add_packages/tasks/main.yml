@@ -5,12 +5,15 @@
     - build-essential
     - cpanminus
     - curl
+    - freetds-dev
+    - freetds-bin
     - git
     - graphviz
     - libaio1
     - pgxnclient
     - python-psycopg2
     - postgresql-server-dev-9.3
+    - tdsodbc
 
 - name: Remove packages
   apt: name={{ item }} state=absent

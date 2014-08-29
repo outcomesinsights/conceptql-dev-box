@@ -1,0 +1,4 @@
+---
+- name: Install Tiny TDS Gem
+  command: bash -lc "gem install tiny_tds"
+
