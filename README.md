@@ -12,6 +12,11 @@ Inspired by [rails-dev-box](https://github.com/rails/rails-dev-box), this projec
 * Download the [OMOP Vocabulary Files](http://vocabbuild.omop.org/vocabulary-release) then **unzip them and rename them to conceptql-dev-box/omop_vocab**
     * I can't ship them myself because they contain "restricted" vocabularies like CPT codes
     * Sorry for the inconvenience!
+* Download the following [Oracle Instant Client Files](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) then **move them into oracle_instant_client_zip_files**:
+  - instantclient-basic-linux.x64-11.2.0.4.0.zip
+  - instantclient-sdk-linux.x64-11.2.0.4.0.zip
+  - instantclient-sqlplus-linux.x64-11.2.0.4.0.zip
+
 
 ## How To Build The Virtual Machine
 

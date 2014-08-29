@@ -1,0 +1,20 @@
+---
+- name: obtaining installation directory
+  shell: ls -d /opt/oracle/instantclient_1[01]_*
+  register: ls_oracle_home
+  changed_when: false
+
+- name: obtain libclntsh path
+  shell: ls -d {{ ls_oracle_home.stdout }}/libclntsh.so.1[01]*
+  register: ls_libclntsh_path
+  changed_when: false
+  tags: install
+
+- name: Fix symbolic link for ruby-oci8
+  file: state=link src={{ ls_libclntsh_path.stdout }} path={{ ls_oracle_home.stdout }}/libclntsh.so
+  sudo: true
+
+- name: Install ruby-oci8 gem
+  command: bash -lc "export ORACLE_HOME={{ ls_oracle_home.stdout }}; export PATH=$PATH:$ORACLE_HOME ; export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME; rvm use --default; gem install ruby-oci8"
+
+

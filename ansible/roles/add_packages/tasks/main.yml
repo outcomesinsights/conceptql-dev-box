@@ -14,6 +14,7 @@
     - python-psycopg2
     - postgresql-server-dev-9.3
     - tdsodbc
+    - unzip
 
 - name: Remove packages
   apt: name={{ item }} state=absent

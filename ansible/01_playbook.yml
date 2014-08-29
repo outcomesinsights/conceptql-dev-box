@@ -22,4 +22,5 @@
   roles:
     - add_packages
     - Ansibles.postgresql
+    - { role: aguynamedryan.oracle-client, oracle_client_local_oracle_zip_files_dir: ../oracle_instant_client_zip_files, oracle_client_install_cx_oracle: false }
 
