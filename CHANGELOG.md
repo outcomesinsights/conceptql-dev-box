@@ -1,10 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 0.0.3 - 2014-08-29
 
 ### Added
-- Nothing
+- Installs tiny_tds gem for SQL Server connections.
+- Installs ruby-oci8 for Oracle connections.
+- Installs graphviz for ConceptQL diagrams.
 
 ### Deprecated
 - Nothing.
@@ -13,7 +15,7 @@ All notable changes to this project will be documented in this file.
 - Nothing.
 
 ### Fixed
-- Don't update the test_conceptql git repo on when provisioning.
+- Don't update the test_conceptql git repo when provisioning.
 
 
 ## 0.0.3 - 2014-08-19
