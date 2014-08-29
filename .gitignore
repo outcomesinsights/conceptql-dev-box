@@ -2,7 +2,7 @@
 .*.un*
 .vagrant
 conceptql
-omop_vocab
+omop_vocab*
 test_conceptql
 sequelizer
 conceptql
