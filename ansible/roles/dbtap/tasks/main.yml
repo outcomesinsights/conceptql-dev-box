@@ -1,0 +1,8 @@
+---
+- name: Clone dbTAP
+  git: repo=https://github.com/outcomesinsights/dbtap.git dest={{ dbtap_dir }} update=no
+
+- name: Install dbTAP gems via bundler
+  command: bash -lc "cd {{ dbtap_dir }} && bundle"
+  register: _tcql_install_gems_via_bundler
+  changed_when: _tcql_install_gems_via_bundler.stdout.find('Installing') != -1

@@ -15,6 +15,7 @@
   roles:
     - altermn.rvm
     - conceptql
+    - dbtap
     - ruby_oci8
     - tinytds
     - { role: prep_data, file_name: sample_validation_data, file_md5: 5792c79c136d90b1f4ad354c65356822 }
