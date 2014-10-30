@@ -1,6 +1,22 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.0.4 - 2014-10-30
+
+### Added
+- Installs dbtap gem for test_conceptql.
+
+### Deprecated
+- Nothing.
+
+### Removed
+- Nothing.
+
+### Fixed
+- .gitignore was ignoring changes to ansible roles.
+- Updated ansible roles with long-ignored changes.
+
+
 ## 0.0.3 - 2014-08-29
 
 ### Added
