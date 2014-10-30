@@ -1,0 +1,8 @@
+---
+- name: Copy ConceptQL
+  git: repo=https://github.com/outcomesinsights/conceptql.git dest={{ conceptql_dir}} update=no
+
+- name: Install ConceptQL gems via bundler
+  command: bash -lc "cd {{ conceptql_dir }} && bundle"
+  register: _tcql_install_gems_via_bundler
+  changed_when: _tcql_install_gems_via_bundler.stdout.find('Installing') != -1

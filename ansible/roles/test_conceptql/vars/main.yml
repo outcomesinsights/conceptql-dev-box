@@ -1,0 +1,3 @@
+---
+test_conceptql_dir: "{{ tcql.dest_dir }}/test_conceptql"
+
